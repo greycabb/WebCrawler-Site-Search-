@@ -1,0 +1,23 @@
+====PA1 part====
+I changed the results.php page on my NBA instance to return JSON instead of an HTML page with player results, and only show 1 result with exact match.
+
+====PA2 part====
+Last time on my PA2 it didn't catch bill gates even though it should have, so I specified a timeout of an hour, because last time it got cut off by the ~2 minute limit.
+
+I made it so when you click on one of the search results, it takes you to the PA3 results page.
+
+====PA3 part====
+I changed the table architecture so that instead of having urls mapped to the site data, I had words in a title associated with a URL mapped to site data.
+
+Then I had the PA3 results page query for every word entered into the search box that matches the rows in the table where the partition key (word) matches a word in the search box. Then I ordered it by the number of matching words from the whole title versus the query words.
+
+I didn't have to change the last 2 months thing anymore since it's March now so 3 - 2 = 1 == january. For bleacherreport I made it so it's required to have /articles after the root URL to go in.
+
+Here, whenever the user makes a query it goes to the AWS instance thingy and asks for a NBA player, if there is one then it shows all their stats in a div.
+
+====dashboard====
+I made a new dashboard since graphical dashboard isn't needed anymore (and it costs me like $10 an hour to run the graphical dashboard), so it only refreshes stuff on page load as well as when buttons are pressed individually. Then I added functionality for the trie building, as well as cache clearing. Oh yea I also added caching for the trie and search results using dictionaries where the key is the search query and the value is the results.
+
+Then I took the keepalive I used in PA2 and put it in here as well.
+
+For the advertisements I used SpeedyAds which was really straight forward, I just paste a script in my <head>. I chose a really small text one since I find ads annoying and this one wasn't really obtrusive.

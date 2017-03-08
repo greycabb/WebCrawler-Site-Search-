@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript">
+sa_client = "3f0588318281077846040bfd4ad7674e";
+sa_code = "84f5b1fcb207b9da282946f98ca46ad2";
+sa_protocol = ("https:"==document.location.protocol)?"https":"http";
+sa_pline = "0";
+sa_maxads = "3";
+sa_bgcolor = "FFFFFF";
+sa_bordercolor = "BDD631";
+sa_superbordercolor = "BDD631";
+sa_linkcolor = "001EB5";
+sa_desccolor = "000000";
+sa_urlcolor = "788300";
+sa_b = "0";
+sa_format = "linkbox_160x90";
+sa_width = "160";
+sa_height = "90";
+sa_location = "0";
+sa_radius = "0";
+sa_borderwidth = "1";
+sa_font = "0";
+    </script>
+    <script type="text/javascript" src="//sa.entireweb.com/sense2.js"></script>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <title>Admin Dashboard</title>
+
+    <link href="stylesheet.css" type="text/css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="dashboard.js"></script>
+
+    <link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Magnifying_glass_icon.svg/1024px-Magnifying_glass_icon.svg.png" />
+</head>
+<body>
+    <a class="dashboardlink" href="index.html">
+        Back
+    </a>
+    
+    <div id="trie-dashboard" class="hub">
+        <h1>Trie Dashboard</h1>
+
+        <div id="db_t1" class="dbbutton blue insignificant">
+            [T1] Rebuild trie
+            <button type="submit">Go</button>
+            <div class="results"></div>
+        </div>
+
+        <div id="db_t2" class="dbbutton blue insignificant">
+            [T2] Clear cache
+            <button type="submit">Go</button>
+            <div class="results"></div>
+        </div>
+
+        <div id="db_t3" class="dbbutton blue">
+            [T3] Get trie title count
+            <button type="submit">Update</button>
+            <div class="results"></div>
+        </div>
+
+        <div id="db_t4" class="dbbutton blue">
+            [T4] Get last title added to trie
+            <button type="submit">Update</button>
+            <div class="results"></div>
+        </div>
+    </div>
+
+    <div id="updateall" class="dbbutton purple">
+        Update everything
+        <button type="submit">Go</button>
+    </div>
+
+    <div id="crawler-dashboard" class="hub">
+        <h1>Crawler Dashboard</h1>
+        <div id="db_c1" class="dbbutton red insignificant">
+            [C1] Start crawling CNN
+            <button type="submit">Go</button>
+            <div class="results"></div>
+        </div>
+        <div id="db_c2" class="dbbutton red insignificant">
+            [C2] Start crawling BleacherReport
+            <button type="submit">Go</button>
+            <div class="results"></div>
+        </div>
+        <div id="db_c3" class="dbbutton red insignificant">
+            [C3] Start crawling custom URL
+            <input type="text" name="search" placeholder="url/robots.txt" class="search" id="search2">
+            <button type="submit">Go</button>
+            <div class="results"></div>
+        </div>
+        <div id="db_c4" class="dbbutton red">
+            [C4] Get web crawler state
+            <button type="submit">Update</button>
+            <div class="results"></div>
+        </div>
+        <div id="db_c5" class="dbbutton red">
+            [C5] Get CPU utilization
+            <button type="submit">Update</button>
+            <div class="results"></div>
+        </div>
+        <div id="db_c6" class="dbbutton red">
+            [C6] Get RAM availability
+            <button type="submit">Update</button>
+            <div class="results"></div>
+        </div>
+        <div id="db_c7" class="dbbutton red">
+            [C7] Get number of URLs crawled
+            <button type="submit">Update</button>
+            <div class="results"></div>
+        </div>
+        <div id="db_c8" class="dbbutton red">
+            [C8] Get last 10 URLs crawled
+            <button type="submit">Update</button>
+            <div class="results column"></div>
+        </div>
+        <div id="db_c9" class="dbbutton red">
+            [C9] Show size of queue
+            <button type="submit">Update</button>
+            <div class="results"></div>
+        </div>
+        <div id="db_c10" class="dbbutton red">
+            [C10] Show size of index
+            <button type="submit">Update</button>
+            <div class="results"></div>
+        </div>
+        <div id="db_c11" class="dbbutton red">
+            [C11] Show errors and their URLs
+            <button type="submit">Update</button>
+            <div class="results column"></div>
+        </div>
+        <div id="db_c12" class="dbbutton red insignificant">
+            [C12] Clear cache
+            <button type="submit">Go</button>
+            <div class="results"></div>
+        </div>
+        <div id="db_c13" class="dbbutton red insignificant">
+            [C13] Wipe everything (danger)
+            <input type="text" name="search" placeholder="password" class="search" id="search3">
+            <button type="submit">Go</button>
+            <div class="results"></div>
+        </div>
+    </div>
+</body>
+</html>

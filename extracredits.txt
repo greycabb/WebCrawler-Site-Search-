@@ -1,0 +1,112 @@
+_________________________________________________________________________
+====[up to 10pts] Beautiful search results page (styling, photos, etc)====
+So I tried to make my site look like Google.
+
+On the front page (the wiki trie search queries) I made it so that the results are a dropdown that appears, and each URL it's obvious that you can click on it because when you hover, the color changes.
+
+Then for the search result page, I attempted to emulate Google's search results page. I checked and Bing also has a very similar style which I was very used to.
+
+It shows the title of the article at the top in blue, and immersion-breaking unescaped characters like Spanish characters all appear as they should. Like Google, it's blue and turns purple after they are visited.
+
+Below the title is the URL of the actual site in green, like Google and Bing.
+
+Then since I stored the date, I had the date of the webpage before the body snippet (see the next EC), and I added dividers so the results are clearly separate.
+
+Because making everything look as good as the 10 URLs on my page has a huge performance loss, for all other URLs (which can go up to like 8000) I created boxes separating each group of URLs in groups of 10 so the URLs look like less of a huge blob and more managable, which is like a minified version of having multiple pages for everything.
+
+Then I implemented player photos for NBA player stats when they get shown. I registered for a Bing image API key and used it so that when you search for a player, it calls that API and gets the first image then uses it as the background for the div.
+
+=>
+	Search "stephen curry" or "lebron james" or "kevin durant" (or any other player) and you will see a nice background image for the div. (Some pictures are better than others)
+
+
+
+
+
+_________________________________________________________________________
+====[10pts] Show body snippet in results page with query words bolded====
+In the original PA3 I already compressed the text of the body and put it in the row data. So here I did the same, but put it in each word-url association row. I refined it so that there's less heading tags (it starts getting text at around the author name now), and made it so that it supports all characters, even emojis and spanish characters using escaped html.
+
+So when the user searches for anything and there are results, the first 10 results will have the first 400 characters of the body text shown here. Then I used regex to bold every instance of a query word (client sided).
+
+Making the body text appear takes a bit of time and definitely slows down the showing of results, which is why I limited it to 10, which is exactly as many as google has on a page.
+
+=>
+	To test this, just search anything in the box on the results page, then after you stop typing, and there are results, you will see the body text with the first 10 results. All query words are bolded.
+
+
+
+
+_________________________________________________________________________
+====[5pts] Learn ranking from user clicks on URLs====
+To implement this, for each result that gets shown on the results page, I added an onclick handler that sends a request to Admin.asmx, indicating that a user has clicked on a link. Then a dictionary that stores scores for each URL has its value increased or set to 1 (if there wasn't a value before).
+
+Then I made it so that the LINQ ranking now adds the values of the dictionary as well as the number of matching words, where 1 click = +1 rank.
+
+So 5 matching words + 1 click = 6 rank
+And 6 matching words + 0 clicks = 6 rank, they will have equal rank
+
+But if 0 matching words + 10000 clicks, it won't be added still. At least 1 word must be matching
+
+Also, when this score gets updated, it clears the cached key:value pair for the specific query that was made (key = query), since the score up function called from the client also has the query that the user entered, so it's easy to change.
+
+=>
+	To test this, search for anything with like 2 words (or any amount really as much as you're willing to click). Go to a low result, then click the link like 10 times or something (5 should be enough). You can left click it because I set the target to be blank so it'll open in a new tab. Note that onclick handlers do not work with the middle click button, so middle clicking won't rank up.
+
+	Then search the query again. You should see that the purple link ( the one you clicked ) will be at the very top of the results!
+
+	Whenever the cache is cleared, all click rankings are cleared as well.
+
+	Also, you can click on a URL that isn't in the top 10 and it will still rank it up! And show the body snippet if it gets ranked up high enough to the top 10.
+
+
+
+
+_________________________________________________________________________
+====[5pts] Google instant (AJAX, every keystroke in query box => update results page)*====
+In the original PA2 I had it so that when the user stops typing, search suggestions get shown, that way older AJAX requests don't come back to haunt the user which is annoying since it's like last successful request gets shown.
+
+So I just did that for the search results, after a 0.8 second delay after not typing, it will start searching for results.
+
+Since I did the body text snippet with query words bolded, it was really slow when I loaded like 5000 URLs. So to circumvent this, every URL after the first 10 is put in a box, each box containing 10 URLs so it still looks nice.
+
+I also added a button that says "Go faster?" that makes it so that every URL after the top 10 is not shown if it is clicked, since the delayed appearance of stuff is a lot due to client side stuff. This can be toggled on or off.
+
+Another optimization I did was make it so that duplicate words in the same query are ignored, so we don't have to iterate over each of them, which I used a hashset -> list for which is the fastest way to do it.
+
+Unfortunately for a keyword like "CNN" or sometimes "Trump" that has like tens of thousands of words it will take longer to load. But for anything else with less than 500 results, like 'Stephen Curry' or 'Apple' or 'Microsoft' then it will be as fast as Google.
+
+Once cached however, "Trump" and "CNN" load very quickly!
+
+Also, the final optimization I did was that 1 word queries did not bother getting the count, they only get the click score. Since duplicates are ignored, this makes it faster.
+
+=>
+	To test this, type anything into the Part 2 search box, and results will appear without you having to hit Enter or anything. It takes a few seconds to show 5000 results which I definitely think is pretty fast, since Google only shows 10 detailed URLs.
+
+	The cache also makes everything faster after it's been searched once, but that's part of the main assignment, even if the query is like 50 words long. It will be somewhat slow at first (about 8 seconds) then when the same query is searched again it appears in about 1 second. Even if there's 7000+ results it still loads pretty fast because URL 11 onwards is just a URL without body text.
+
+
+
+
+
+_________________________________________________________________________
+====[5pts] Multi threaded crawler====
+In the original PA3 I didn't have a multi threaded crawler.
+But since I did everything in RunAsync it would have been easy to make actually.
+To make it multi threaded, in the Run() function of the workerrole, there was originally a try { } with this.RunAsync(this.cancellationTokenSource.Token).Wait() inside. I found out that you can make a list of Task objects, and have each task be these contents. So I made 15 of them, then made them all wait. I tried it on the cloud and the crawling was much faster. Even locally it does thousands per minute!
+
+15 seemed fast enough, 50 was pretty fast and got me like a million rows in a few hours. 5 was decent but not as fast as 15.
+
+Previously, I made it so that there were 3 distinct states, Idle, Loading and Working, where when Working you wouldn't be able to receive sitemaps. So it wouldn't work well with multithreading, so I rewrote it so that these states are in name only, and at any time you can receive sitemaps, robots, urls. I also had to make the 10 last crawled URLs in a try catch since often times, multiple would be trying to change the list of the last 10 at once which results in an exception.
+
+I didn't see the need to make different workers for different tasks (sitemaps, robots, urls) since the sitemaps and robots components are over really quickly, and the bulk is just URLs.
+
+=> 
+	To test this, in the Admin dashboard (click Dashboard at the top right of the screen) you should see that the size of the queue and size of index are both pretty high. Or look at my code to see the multithreaded implementation.
+
+
+
+
+
+_________________________________________________________________________
+==== ====
