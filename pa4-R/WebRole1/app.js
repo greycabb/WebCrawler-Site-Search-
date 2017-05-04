@@ -521,7 +521,7 @@ function getPictures(query) {
         beforeSend: function (xhrObj) {
             // Request headers
             xhrObj.setRequestHeader("Content-Type", "multipart/form-data");
-            xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", "231e2054b21c4816bc2fae78a2a872f8");
+            xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", "API KEY GOES HERE"
         },
         type: "POST",
         // Request body
