@@ -1,4 +1,4 @@
-﻿(function () {
+(function () {
     // Add event listener to everything
     $(document).ready(function () {
         $('#db_t1').find('button').click(t1_rebuildTrie);
@@ -107,7 +107,7 @@
     }
     function c13_wipeEverything() {
         var password = $('#search3').val();
-        if (password !== 'bites the dust') {
+        if (password !== 'the password') {
             results('#db_c13').html('invalid password');
         } else {
             results('#db_c13').html('Clearing everything... please wait 40 seconds');
